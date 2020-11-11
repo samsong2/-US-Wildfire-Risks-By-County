@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src='https://d3js.org/d3.v5.min.js'></script>
+    <script src='https://d3js.org/topojson.v3.min.js'></script>
+    <script src='src/CountyMap.js'></script>
+</head>
+
+<body onload=init()>
+    <div id="tooltip" style="display: none;"></div>
+
+    <div class="container">
+
+        <div class="visualization">
+            <h2 id="viz-title">County Map</h4>
+                <!--<select id="selectButton"></select>-->
+                <svg width=1000 height=500></svg>
+        </div>
+
+    </div>
+    <div>
+        Shape Source<a href="https://census.gov/"> US Census Bureau</a>
+    </div>
+</body>
+
+</html>
