@@ -26,6 +26,7 @@ async function draw_map(){
         .data(county_features)
         .enter().append("path")
         .attr("class", function(d) { return "COUNTYNS " + d.properties.COUNTYNS; })
+        .attr("name", function(d){ return "County:" + d.properties.NAME;})
         .attr("d", path);
     
 }
