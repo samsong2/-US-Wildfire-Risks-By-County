@@ -25,8 +25,11 @@ async function draw_map(){
     svg.selectAll(".counties")
         .data(county_features)
         .enter().append("path")
-        .attr("class", function(d) { return "COUNTYNS " + d.properties.COUNTYNS; })
-        .attr("name", function(d){ return "County:" + d.properties.NAME;})
+        .attr("id", function(d) { return  d.properties.COUNTYNS; })
+        .attr("name", function(d){ return  d.properties.NAME;})
+        .attr("state", function(d){ return d.properties.STATEFP})
+        .attr("geoid", function(d){ return d.properties.GEOID})
+        .attr("class", "county")
         .attr("d", path);
     
 }
