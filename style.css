@@ -1,52 +1,10 @@
-#header {
-    background-image:linear-gradient(rgb(173, 230, 187),white);
-    text-align: center;
-    height: 120px;
-    width: auto;
-}
 
 
+/* basic for drawing out the boundaries */
 .county{
     fill: transparent;
     stroke: black;
-    stroke-linejoin: round;
+    stroke-linejoin: miter; 
 }
 
 
-
-/*
-    Styling for inside the visual
-/**/
-#tooltip {
-    position: absolute;
-    text-align: justify;
-    text-justify: auto;
-    width: 100px;
-    background: rgb(212, 223, 235);
-    border-radius: 5px;
-    padding: 10px;
-    z-index: 2;
-}  
-
-#viz-title {
-    text-align: center;
-    right: 50%;
-}
-
-.annotations.card{
-    border-radius: 10px;
-    padding: 5px;
-    font-family: Arial;
-}
-
-.annotation rect{
-    opacity: 0.2;
-    fill: orange;
-    z-index: -2;
-}
-
-.annotation text{
-    z-index: -1;
-    font-family: Arial;
-    overflow-wrap: break-word
-}
