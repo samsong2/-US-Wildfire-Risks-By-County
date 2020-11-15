@@ -12,7 +12,7 @@ async function draw_map() {
 
     var path = d3.geoPath()
         .projection(projection);
-
+        
     // Read the county topojson file
     var us = await d3.json("./data/us_other.json", function (error, us) {
         if (error)
@@ -21,6 +21,7 @@ async function draw_map() {
     });
 
     //var counties = topojson.feature(us, us.objects.tl_2019_us_county);
+    //var county_features = topojson.feature(us, us.objects.tl_2019_us_county).features;
     var county_features = topojson.feature(us, us.objects.counties).features
 
     // Read the wildfire data file
@@ -28,15 +29,13 @@ async function draw_map() {
         .then(function (wildfire) {
 
             // Format data & store in array & dictionary
-            var aveByID = {};
             var dictByID = {};
             wildfire.forEach(function (d) {
-                aveByID[d.id] = +d.ave_hazard_score;
                 d.county = d.Name;
                 d.state = d.state_abbrev;
                 d.ave_hazard_score = +d.ave_hazard_score;
                 d.median_hazard_score = +d.median_hazard_score;
-                d.total_pop = +d.total_pop;
+                d.total_pop = +d.total_pop;a
                 d.pop_hazard_score = +d.pop_hazard_score;
                 d.pop_change_pct = +d.pop_change_pct;
                 dictByID[d.id] = {
@@ -81,7 +80,14 @@ async function draw_map() {
                 .enter().append("path")
                 .attr("d", path)
                 .attr("fill", function (d) {
-                    return color(aveByID[d.id]);
+                    // check to see if id is in dictionary
+                    if( dictByID[d.id] === undefined){
+                        console.log(d.id)
+                        return color(0)
+                    }
+                    else{
+                        return color(dictByID[d.id].ave_score);
+                    }
                 })
                 .on("mouseover", mouseover)
                 .on("mouseout", mouseout);
