@@ -31,6 +31,7 @@ async function draw_map() {
         .attr("class", "county")
         .attr("id", function(d){return d.id})
         .attr("d", path)
+        .attr("fill", "transparent");
 
     // Add black lines for states    
     svg.append("path")
@@ -102,12 +103,12 @@ async function draw_hazard_map() {
 
             // Add white lines between counties and color counties according to hazard score
             svg.selectAll(".county")
-                //.data(dictByID, function(d) { return d.id; }) // attempt to join by id
-                .data(Object.values(dictByID))
-                .join()
+                .data(Object.values(dictByID), function(d) { return d.id; })  // attempt to join by id
+                //.data(Object.values(dictByID))
                 .attr("fill", function (d) {
                         return color(d.ave_score);
                 })
+                .enter()
                 .on("mouseover", mouseover)
                 .on("mouseout", mouseout);
 
