@@ -6,12 +6,8 @@ async function draw_map() {
     var width = 1000
     var height = 500
     var svg = d3.select(".container").select("svg")
-    //var projection = d3.geoAlbers()
 
-    var projection = d3.geoAlbersUsa()
-        .scale(1000)
-        .translate([width / 2, height / 2]);
-
+    var projection = d3.geoAlbers();
     var path = d3.geoPath()
         .projection(projection);
         
@@ -22,22 +18,8 @@ async function draw_map() {
         console.log(us);
     });
     
-    //var counties = topojson.feature(us, us.objects.tl_2019_us_county);
-    //var county_features = topojson.feature(us, us.objects.tl_2019_us_county).features;
     var county_features = topojson.feature(us, us.objects.counties).features
 
-    /*
-    svg.selectAll(".counties")
-        .data(county_features)
-        .enter().append("path")
-        .attr("class", "county")
-        .attr("ID", function(d) { return d.properties.GEOID;})
-        .attr("Name", function(d) { return d.properties.NAME;})
-        .attr("State", function(d) { return d.properties.STATEFP;})
-        .attr("d", path);
-
-     */
-    
     // Read the wildfire data file
     var wildfire = await d3.csv("./data/wildfire_county_data.csv")
         .then(function (wildfire) {
@@ -67,7 +49,6 @@ async function draw_map() {
             var formatNum1 = d3.format(".3r")
             var formatNum2 = d3.format(",")
 
-            //console.log(dictByID)
             // Create sequential color scale based on oranges
             var color = d3.scaleSequential()
                 .domain([0, 5])
