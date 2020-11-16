@@ -5,14 +5,14 @@
 async function draw_map() {
     var width = 1000
     var height = 500
-    var svg = d3.select(".container").select("svg")
-    var projection = d3.geoAlbersUsa()
+    var svg = d3.select(".container").select("svg");
+    var projection = d3.geoAlbers()
         .scale(1000)
         .translate([width / 2, height / 2]);
 
     var path = d3.geoPath()
         .projection(projection);
-        
+
     // Read the county topojson file
     var us = await d3.json("./data/us_other.json", function (error, us) {
         if (error)
@@ -20,9 +20,35 @@ async function draw_map() {
         console.log(us);
     });
 
-    //var counties = topojson.feature(us, us.objects.tl_2019_us_county);
-    //var county_features = topojson.feature(us, us.objects.tl_2019_us_county).features;
     var county_features = topojson.feature(us, us.objects.counties).features
+
+    // draw blank counties
+    svg.append("g")
+        .attr("class", "counties")
+        .selectAll("path")
+        .data(county_features)
+        .enter().append("path")
+        .attr("class", "county")
+        .attr("id", function(d){return d.id})
+        .attr("d", path)
+
+    // Add black lines for states    
+    svg.append("path")
+        .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+            return a.id !== b.id;
+        }))
+        .attr("class", "states")
+        .attr("d", path);
+}
+
+// Testing splitting up drawing the map and adding color
+async function draw_hazard_map() {
+    var svg = d3.select(".container").select("svg");
+
+    // Create sequential color scale based on oranges
+    var color = d3.scaleSequential()
+        .domain([0, 5])
+        .interpolator(d3.interpolateOranges);
 
     // Read the wildfire data file
     var wildfire = await d3.csv("./data/wildfire_county_data.csv")
@@ -42,6 +68,7 @@ async function draw_map() {
                 d.pop_change_pct = +d.pop_change_pct;
                 dictByID[d.id] = {
                     county: d.county,
+                    id: d.id,
                     state: d.state,
                     ave_score: d.ave_hazard_score,
                     median: d.median_hazard_score,
@@ -53,7 +80,6 @@ async function draw_map() {
             var formatNum1 = d3.format(".3r")
             var formatNum2 = d3.format(",")
 
-            //console.log(dictByID)
             // Create sequential color scale based on oranges
             var color = d3.scaleSequential()
                 .domain([0, 5])
@@ -75,40 +101,23 @@ async function draw_map() {
             var mouseout = function () { tooltip.style("opacity", 0) };
 
             // Add white lines between counties and color counties according to hazard score
-            svg.append("g")
-                .attr("class", "county")
-                .selectAll("path")
-                .data(county_features)
-                .enter().append("path")
-                .attr("d", path)
+            svg.selectAll(".county")
+                //.data(dictByID, function(d) { return d.id; }) // attempt to join by id
+                .data(Object.values(dictByID))
+                .join()
                 .attr("fill", function (d) {
-                    // check to see if id is in dictionary
-                    if( dictByID[d.id] === undefined){
-                        console.log(d.id)
-                        return color(0)
-                    }
-                    else{
-                        return color(dictByID[d.id].ave_score);
-                    }
+                        return color(d.ave_score);
                 })
                 .on("mouseover", mouseover)
                 .on("mouseout", mouseout);
-
-            // Add black lines for states    
-            svg.append("path")
-                .datum(topojson.mesh(us, us.objects.states, function (a, b) {
-                    return a.id !== b.id;
-                }))
-                .attr("class", "states")
-                .attr("d", path);
 
         })
         .catch(function (err) {
             console.log("error: " + err);
         })
-
 }
 
 function init() {
     draw_map();
+    draw_hazard_map();
 }
