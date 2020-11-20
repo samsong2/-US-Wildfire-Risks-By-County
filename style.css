@@ -5,12 +5,20 @@
     stroke: white;
     stroke-linejoin: miter; 
 }
+
+.county.active{
+    stroke: green;
+    stroke-width: 2px;
+}
+
 .states {
     fill: none;
     stroke: black;
     stroke-linejoin: miter;
 }
-  #tooltip {
+
+
+#tooltip {
     opacity: 0;
     position: absolute;
     text-align: center;
