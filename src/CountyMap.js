@@ -19,9 +19,8 @@ var alber_map_features = function (d) {
     }
 }
 
-
 // Draws the map lines and add colors
-async function draw_map() {
+async function draw_hazard_map(map) {
     var width = 1000
     var height = 500
     var svg = d3.select(".container").select("svg")
@@ -31,16 +30,6 @@ async function draw_map() {
 
     var path = d3.geoPath()
         .projection(projection);
-
-    // Read the county topojson file
-    var us = await d3.json("data/us_other_updated.json", function (error, us) {
-        if (error)
-            return console.error(error);
-        console.log(us);
-    });
-
-    //var county_features = topojson.feature(us, us.objects.tl_2019_us_county).features;
-    //county_features = county_features.map(tl_map_features)
 
     var county_features = topojson.feature(us, us.objects.counties).features
 
@@ -125,14 +114,15 @@ async function draw_map() {
                 .on("mouseout", mouseout);
 
 
-            // Add black lines for states    
+            // Add black lines for states
+            /*    
             svg.append("path")
                 .datum(topojson.mesh(us, us.objects.states, function (a, b) {
                     return a.id !== b.id;
                 }))
                 .attr("class", "states")
                 .attr("d", path);
-
+            */
 
         })
         .catch(function (err) {
@@ -141,6 +131,20 @@ async function draw_map() {
 
 }
 
-function init() {
-    draw_map();
+async function draw_weighted_hazard_map(map){
+
+}
+
+async function init() {
+
+    // reads a topojson and return its map features
+    var us_map = await d3.json("data/us_other_updated.json", function (error, us) {
+        if (error)
+            return console.error(error);
+        console.log(us);
+    });
+
+    draw_hazard_map(us_map);
+
+    draw_weighted_hazard_map(us_map);
 }
