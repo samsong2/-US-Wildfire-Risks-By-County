@@ -88,16 +88,13 @@ async function draw_map() {
                     pop_change_pct: d.pop_change_pct
                 };
             });
-            var formatNum1 = d3.format(".3r")
-            var formatNum2 = d3.format(",")
 
-            // Create sequential color scale based on oranges
-            var color = d3.scaleSequential()
-                .domain([0, 5])
-                .interpolator(d3.interpolateOranges);
 
             // Add tooltip and tooltip actions
             var tooltip = d3.select("#tooltip");
+            // tooltip formating
+            var formatNum1 = d3.format(".3r")
+            var formatNum2 = d3.format(",")
 
             var mouseover = function (d) {
                 d3.select(this)
@@ -113,6 +110,7 @@ async function draw_map() {
                         "<br/> 2020 Est Population: " + formatNum2(d.total_pop) +
                         "<br/> Pop % Change 2010-20: " + formatNum1(d.pop_change_pct) + "%");
             };
+            
             var mouseout = function () {
                 d3.select(this)
                     .attr("class", "county")
@@ -121,8 +119,9 @@ async function draw_map() {
             };
 
             // Add white lines between counties and color counties according to hazard score
+            // the csv data is joined to the map data by id
             svg.selectAll(".county")
-                .data(Object.values(dictByID), function (d) { return d.id; })  // attempt to join by id
+                .data(Object.values(dictByID), function (d) { return d.id; })  
                 .attr("fill", function (d) {
                     return color(d.ave_score);
                 })
