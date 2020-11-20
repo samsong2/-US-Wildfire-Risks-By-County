@@ -62,11 +62,6 @@ async function draw_map() {
         }))
         .attr("class", "states")
         .attr("d", path);
-}
-
-// Testing splitting up drawing the map and adding color
-async function draw_hazard_map() {
-    var svg = d3.select(".container").select("svg");
 
     // Read the wildfire data file
     var wildfire = await d3.csv("./data/wildfire_county_data.csv")
@@ -152,5 +147,4 @@ function show(attribute){
 
 async function init() {
     draw_map();
-    draw_hazard_map();
 }
