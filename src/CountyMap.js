@@ -110,7 +110,7 @@ async function draw_map() {
                         "<br/> 2020 Est Population: " + formatNum2(d.total_pop) +
                         "<br/> Pop % Change 2010-20: " + formatNum1(d.pop_change_pct) + "%");
             };
-            
+
             var mouseout = function () {
                 d3.select(this)
                     .attr("class", "county")
@@ -133,17 +133,31 @@ async function draw_map() {
         })
 }
 
+function add_toggle(){
+
+    d3.select('#map_options').selectAll("input")
+        .on("change", function(){
+        console.log(this.value)
+        show(this.value)
+    });
+}
+
+
 function show(attribute){
 
     // verify attribute before changing color?
+    if(attribute != "pop_score" && attribute != "ave_score")
+        return false;
 
     d3.select('#hazard_by_county').selectAll(".county")
-        .transition(200)
+        .transition(500)
         .attr("fill", function (d) {
             return color(d[attribute]);
         })
+    return true;
 }
 
 async function init() {
     draw_map();
+    add_toggle();
 }
