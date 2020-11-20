@@ -139,22 +139,14 @@ async function draw_hazard_map() {
         })
 }
 
-function show_ave_hazard() {
+function show(attribute){
+
+    // verify attribute before changing color?
 
     d3.select('#hazard_by_county').selectAll(".county")
         .transition(200)
         .attr("fill", function (d) {
-            return color(d.ave_score);
-        })
-
-}
-
-function show_pop_hazard() {
-
-    d3.select('#hazard_by_county').selectAll(".county")
-        .transition(200)
-        .attr("fill", function (d) {
-            return color(d.pop_score);
+            return color(d[attribute]);
         })
 }
 
