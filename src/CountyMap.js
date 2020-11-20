@@ -1,18 +1,18 @@
 
 
 
-var tl_map_features = function(d){
+var tl_map_features = function (d) {
     return {
-        type : d.type,
+        type: d.type,
         id: Number.parseInt(d.properties.GEOID),
         geometry: d.geometry,
         properties: d.properties
     }
 }
 
-var alber_map_features = function(d){
+var alber_map_features = function (d) {
     return {
-        type : d.type,
+        type: d.type,
         id: Number.parseInt(d.id),
         geometry: d.geometry,
         properties: d.properties
@@ -31,9 +31,9 @@ async function draw_map() {
 
     var path = d3.geoPath()
         .projection(projection);
-        
+
     // Read the county topojson file
-    var us = await d3.json("data/us_other.json", function (error, us) {
+    var us = await d3.json("data/us_other_updated.json", function (error, us) {
         if (error)
             return console.error(error);
         console.log(us);
@@ -80,6 +80,10 @@ async function draw_map() {
             var tooltip = d3.select("#tooltip");
 
             var mouseover = function (d) {
+                d3.select(this)
+                    .attr("class", "county active")
+                    .raise();
+
                 tooltip.style("opacity", 1)
                     .style("left", (d3.event.pageX + 15) + "px")
                     .style("top", (d3.event.pageY - 15) + "px")
@@ -89,27 +93,37 @@ async function draw_map() {
                         "<br/> 2020 Est Population: " + formatNum2(dictByID[d.id].total_pop) +
                         "<br/> Pop % Change 2010-20: " + formatNum1(dictByID[d.id].pop_change_pct) + "%");
             };
-            var mouseout = function () { tooltip.style("opacity", 0) };
+            var mouseout = function () {
+                d3.select(this)
+                    .attr("class", "county")
+                    .lower();
+                tooltip.style("opacity", 0)
+            };
 
             // Add white lines between counties and color counties according to hazard score
             svg.append("g")
-                .attr("class", "county")
+                .attr("class", "map")
+                .attr("id", "hazard_by_county")
                 .selectAll("path")
                 .data(county_features)
                 .enter().append("path")
+                .attr("class", "county")
                 .attr("d", path)
+                .attr("id", function (d) { return d.id })
                 .attr("fill", function (d) {
                     // check to see if id is in dictionary
-                    if( dictByID[d.id] === undefined){
+                    // Dictionary will only contain counties on the mainland
+                    if (dictByID[d.id] === undefined) {
                         console.log(d.id)
                         return color(0)
                     }
-                    else{
+                    else {
                         return color(dictByID[d.id].ave_score);
                     }
                 })
                 .on("mouseover", mouseover)
                 .on("mouseout", mouseout);
+
 
             // Add black lines for states    
             svg.append("path")
@@ -118,6 +132,7 @@ async function draw_map() {
                 }))
                 .attr("class", "states")
                 .attr("d", path);
+
 
         })
         .catch(function (err) {
