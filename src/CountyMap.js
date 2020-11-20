@@ -1,4 +1,8 @@
 
+// Create sequential color scale based on oranges
+var color = d3.scaleSequential()
+    .domain([0, 5])
+    .interpolator(d3.interpolateOranges);
 
 
 var tl_map_features = function (d) {
@@ -47,7 +51,7 @@ async function draw_map() {
         .data(county_features)
         .enter().append("path")
         .attr("class", "county")
-        .attr("id", function(d){return d.id})
+        .attr("id", function (d) { return d.id })
         .attr("d", path)
         .attr("fill", "transparent");
 
@@ -63,11 +67,6 @@ async function draw_map() {
 // Testing splitting up drawing the map and adding color
 async function draw_hazard_map() {
     var svg = d3.select(".container").select("svg");
-
-    // Create sequential color scale based on oranges
-    var color = d3.scaleSequential()
-        .domain([0, 5])
-        .interpolator(d3.interpolateOranges);
 
     // Read the wildfire data file
     var wildfire = await d3.csv("./data/wildfire_county_data.csv")
@@ -113,11 +112,11 @@ async function draw_hazard_map() {
                 tooltip.style("opacity", 1)
                     .style("left", (d3.event.pageX + 15) + "px")
                     .style("top", (d3.event.pageY - 15) + "px")
-                    .html(dictByID[d.id].county + " (" + dictByID[d.id].state + ") <hr/>" +
-                        " Average Hazard Score: " + formatNum1(dictByID[d.id].ave_score) +
-                        "<br/> Pop-Adjusted Score: " + formatNum1(dictByID[d.id].pop_score) +
-                        "<br/> 2020 Est Population: " + formatNum2(dictByID[d.id].total_pop) +
-                        "<br/> Pop % Change 2010-20: " + formatNum1(dictByID[d.id].pop_change_pct) + "%");
+                    .html(d.county + " (" + d.state + ") <hr/>" +
+                        " Average Hazard Score: " + formatNum1(d.ave_score) +
+                        "<br/> Pop-Adjusted Score: " + formatNum1(d.pop_score) +
+                        "<br/> 2020 Est Population: " + formatNum2(d.total_pop) +
+                        "<br/> Pop % Change 2010-20: " + formatNum1(d.pop_change_pct) + "%");
             };
             var mouseout = function () {
                 d3.select(this)
@@ -128,19 +127,10 @@ async function draw_hazard_map() {
 
             // Add white lines between counties and color counties according to hazard score
             svg.selectAll(".county")
-                .data(Object.values(dictByID), function(d) { return d.id; })  // attempt to join by id
+                .data(Object.values(dictByID), function (d) { return d.id; })  // attempt to join by id
                 .attr("fill", function (d) {
-                    // check to see if id is in dictionary
-                    // Dictionary will only contain counties on the mainland
-                    if (dictByID[d.id] === undefined) {
-                        console.log(d.id)
-                        return color(0)
-                    }
-                    else {
-                        return color(dictByID[d.id].ave_score);
-                    }
+                    return color(d.ave_score);
                 })
-                .enter()
                 .on("mouseover", mouseover)
                 .on("mouseout", mouseout);
         })
@@ -149,7 +139,26 @@ async function draw_hazard_map() {
         })
 }
 
-async function init() {
+function show_ave_hazard() {
 
+    d3.select('#hazard_by_county').selectAll(".county")
+        .transition(200)
+        .attr("fill", function (d) {
+            return color(d.ave_score);
+        })
+
+}
+
+function show_pop_hazard() {
+
+    d3.select('#hazard_by_county').selectAll(".county")
+        .transition(200)
+        .attr("fill", function (d) {
+            return color(d.pop_score);
+        })
+}
+
+async function init() {
     draw_map();
+    draw_hazard_map();
 }
