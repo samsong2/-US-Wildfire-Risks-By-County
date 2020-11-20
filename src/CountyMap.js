@@ -1,6 +1,25 @@
 
 
 
+var tl_map_features = function(d){
+    return {
+        type : d.type,
+        id: Number.parseInt(d.properties.GEOID),
+        geometry: d.geometry,
+        properties: d.properties
+    }
+}
+
+var alber_map_features = function(d){
+    return {
+        type : d.type,
+        id: Number.parseInt(d.id),
+        geometry: d.geometry,
+        properties: d.properties
+    }
+}
+
+
 // Draws the map lines and add colors
 async function draw_map() {
     var width = 1000
@@ -14,13 +33,15 @@ async function draw_map() {
         .projection(projection);
         
     // Read the county topojson file
-    var us = await d3.json("./data/us_other.json", function (error, us) {
+    var us = await d3.json("data/us_other.json", function (error, us) {
         if (error)
             return console.error(error);
         console.log(us);
     });
 
     //var county_features = topojson.feature(us, us.objects.tl_2019_us_county).features;
+    //county_features = county_features.map(tl_map_features)
+
     var county_features = topojson.feature(us, us.objects.counties).features
 
     // Read the wildfire data file
