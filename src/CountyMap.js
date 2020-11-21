@@ -150,7 +150,8 @@ function show(attribute){
         return false;
 
     d3.select('#hazard_by_county').selectAll(".county")
-        .transition(500)
+        .transition()
+		.duration(2000)
         .attr("fill", function (d) {
             return color(d[attribute]);
         })
