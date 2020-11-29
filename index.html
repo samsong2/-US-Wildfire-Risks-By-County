@@ -14,7 +14,14 @@
 
 <body onload=init()>
     <div id="tooltip"></div>
-	<h2 id="viz-title" style="text-align:center">Wildfire Hazard Potential Visualization</h2>
+    <h2 id="viz-title" style="text-align:center">Wildfire Hazard Potential Visualization</h2>
+    <div>
+        <p style="font-size: 16px; font-family: Calibri;">
+            This visualization utilizes Wildfire Hazard Potential(WHP) data produced by the 
+            <a href="https://www.firelab.org/project/wildfire-hazard-potential" target='_blank'>USDA Forest Service Fire Modeling Institute</a> 
+            with the goal "to depict the relative potential for wildfire that would be difficult for suppression resources to contain."<br> 
+        </p>
+    </div>
     <div class="container">
 
         <div class="visualization" style="float:left">
@@ -28,10 +35,6 @@
 		<!-- Create div for explanation of viz -->
         <div style="float:right, width auto; word-break: break-word; word-wrap: break-word;">
             <p style="font-size: 16px; font-family: Calibri;">
-                This visualization utilizes Wildfire Hazard Potential(WHP) data produced by the 
-                <a href="https://www.firelab.org/project/wildfire-hazard-potential" target='_blank'>USDA Forest Service Fire Modeling Institute</a> 
-                with the goal "to depict the relative potential for wildfire that would be difficult for suppression resources to contain."<br> 
-                The scale ranges from 0 to 5 with 5 being the highest risk. These scores are only produced for contiguous United States.<br>
                 The AWHP is the average of all the scores registered for a specific county 
                 while the PW-AWHP is adjusted based on population density in a county, 
                 i.e. how much impact upon population if a fire was uncontained. For example, Malheur County 
@@ -41,9 +44,13 @@
             </p>
         </div>
     </div>
+    <br>
+</body>
+
+<footer>
     <div>
         Shape Source: <a href="https://census.gov/" target='_blank'>US Census Bureau</a>
     </div>
-</body>
 
+</footer>
 </html>
