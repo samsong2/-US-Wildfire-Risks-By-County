@@ -176,16 +176,14 @@ function draw_legend(){
     var height = 500
     var width = 1000
 
-    title = "Wildfire Hazard Potential";
-    tickSize = 5;
-    legend_width = 200; 
-    legend_height = 10;
-    marginTop = 18;
-    marginRight = 0;
-    marginBottom = 50 + tickSize;
-    marginLeft = 100;
-    ticks = width / 64;
-    position = height - 100;
+    var title = "Wildfire Hazard Potential (WHP)";
+    var tickSize = 5;
+    var legend_width = 200; 
+    var legend_height = 10;
+    var marginTop = 18;
+    var marginRight = 0;
+    var marginBottom = 50 + tickSize;
+    var marginLeft = 100;
     
 
     svg.append("path")
@@ -221,7 +219,7 @@ function draw_legend(){
         .attr("id", "legend title")
         .attr("transform", "translate( "+ marginLeft + "," + (height - marginBottom - 10) + ")")
         .attr("fill", "black")
-        .text("Wildfire Hazard Potential (WHP)");
+        .text(title);
 
 }
 
