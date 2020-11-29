@@ -187,6 +187,10 @@ function draw_legend(){
     ticks = width / 64;
     position = height - 100;
     
+
+    svg.append("path")
+        .attr("id", "legend_box")
+        .attr("")
     // draw the legend on the bottom left hand corner
     svg.append("image")
         .attr("id", "legend")
@@ -211,6 +215,14 @@ function draw_legend(){
         .attr("class", "legend axis")
         .attr("transform", "translate("+ marginLeft + "," + (height - marginBottom) + ")")
         .call(legendAxis);
+
+
+    svg.append("text")
+        .attr("id", "legend title")
+        .attr("transform", "translate( "+ marginLeft + "," + (height - marginBottom - 10) + ")")
+        .attr("fill", "black")
+        .text("Wildfire Hazard Potential (WHP)");
+
 }
 
 function show(attribute){
