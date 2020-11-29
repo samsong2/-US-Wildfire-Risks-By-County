@@ -14,43 +14,54 @@
 
 <body onload=init()>
     <div id="tooltip"></div>
-    <h2 id="viz-title" style="text-align:center">Wildfire Hazard Potential Visualization</h2>
+    <h1 id="viz-title" style="text-align:center">Wildfire Hazard Potential Visualization</h2>
+    <div class="container">
+
+        <div class="visualization">
+            <div>
+                Hover over a specific county to see some additional demographic data points about it and toggle 
+                between the two maps to see the colors change for each county.<br>
+                
+                <form id="map_options">
+                    <input type="radio" name="attribute" id="ave_score_radio" value="ave_score" checked>
+                    <label for="ave_score_radio">Average Wildfire Hazard Potential (AWHP)</label>
+                    <input type="radio" name="attribute" id="pop_score_radio" value="pop_score" >
+                    <label for="pop_score_radio"> Average Wildfire Hazard Potential (PW-AWHP) </label>    
+                </form>            
+            </div>
+            <svg width=1000 height=500></svg>
+        </div>
+		<!-- Create div for explanation of viz -->
+        <!--div style="float:right, width auto; word-break: break-word; word-wrap: break-word;"-->
+        <div>
+            <p class = "info-box highlight" id= "ave_score_info">
+                Average Wildfire Hazard Potential(AWHP):<br>
+                The AWHP is the average of all the WHP scores registered for a specific county.
+            </p>
+            <p class = "info-box" id = "pop_score_info">
+                Weighted Average Wildfire Hazard Potential (PW-AWHP):<br>
+                The PW-AWHP takes the AWHP and adjusts the value based on population density in a county.
+                A county with higher population density will be weighted more heavily than a county with
+                lower population density. 
+            </p>
+            <p class = "info-box">
+                By weighing the AWHP of a county against its population average it is possible to get an
+                estimate of the impact upon population if a fire was uncontained. For example, Malheur County 
+                in Oregon has an AWHP of 2.85 but so few people live there that it's PW-AWHP is only 0.649. <br>
+            </p>
+        </div>
+    </div>
     <div>
         <p style="font-size: 16px; font-family: Calibri;">
             This visualization utilizes Wildfire Hazard Potential(WHP) data produced by the 
             <a href="https://www.firelab.org/project/wildfire-hazard-potential" target='_blank'>USDA Forest Service Fire Modeling Institute</a> 
             with the goal "to depict the relative potential for wildfire that would be difficult for suppression resources to contain."<br> 
         </p>
+        <p style="font-size: 16px; font-family: Calibri;">
+            Shapefile Source: <a href="https://census.gov/" target='_blank'>US Census Bureau</a>
+        </p>
     </div>
-    <div class="container">
 
-        <div class="visualization" style="float:left">
-            
-                <form id="map_options">
-                    <input type="radio" name="attribute" value="ave_score" checked>Average Wildfire Hazard Potential (AWHP)
-                    <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average Wildfire Hazard Potential (PW-AWHP)    
-                </form>            
-                <svg width=1000 height=500></svg>
-        </div>
-		<!-- Create div for explanation of viz -->
-        <div style="float:right, width auto; word-break: break-word; word-wrap: break-word;">
-            <p style="font-size: 16px; font-family: Calibri;">
-                The AWHP is the average of all the scores registered for a specific county 
-                while the PW-AWHP is adjusted based on population density in a county, 
-                i.e. how much impact upon population if a fire was uncontained. For example, Malheur County 
-                in Oregon has an AWHP of 2.85 but so few people live there that it's PW-AWHP is only 0.649. <br>
-                Hover over a specific county to see some additional demographic data points about it and toggle 
-                between the two maps to see the colors change for each county.
-            </p>
-        </div>
-    </div>
     <br>
 </body>
-
-<footer>
-    <div>
-        Shape Source: <a href="https://census.gov/" target='_blank'>US Census Bureau</a>
-    </div>
-
-</footer>
 </html>

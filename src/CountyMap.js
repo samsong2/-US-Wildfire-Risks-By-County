@@ -217,17 +217,45 @@ function draw_legend(){
 
     svg.append("text")
         .attr("id", "legend title")
-        .attr("transform", "translate( "+ marginLeft + "," + (height - marginBottom - 10) + ")")
+        .attr("transform", "translate( "+ marginLeft + "," + (height - marginBottom - legend_height) + ")")
         .attr("fill", "black")
         .text(title);
+    
+    svg.append("text")
+        .attr("id", "legend title")
+        .attr("transform", "translate( "+ (marginLeft -2) + "," + (height - marginBottom  + legend_height) + ")")
+        .attr("fill", "black")
+        .attr("text-anchor", "end")
+        .text("Low Risk");
+    
+        svg.append("text")
+        .attr("id", "legend title")
+        .attr("transform", "translate( "+ (marginLeft + legend_width +2) + "," + (height - marginBottom + legend_height) + ")")
+        .attr("fill", "black")
+        .attr("text-anchor", "start")
+        .text("Very High Risk");
+
 
 }
 
 function show(attribute){
 
     // verify attribute before changing color?
-    if(attribute != "pop_score" && attribute != "ave_score")
+    if(attribute == "pop_score"){
+        d3.select("#ave_score_info")
+            .attr("class", "info-box")
+        d3.select("#pop_score_info")
+            .attr("class", "info-box highlight")
+
+    }else if(attribute == "ave_score"){
+        d3.select("#ave_score_info")
+            .attr("class", "info-box highlight")
+        d3.select("#pop_score_info")
+            .attr("class", "info-box")
+
+    }else{
         return false;
+    }
 
     d3.select('#hazard_by_county').selectAll(".county")
         .transition()

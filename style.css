@@ -17,6 +17,16 @@
     stroke-linejoin: miter;
 }
 
+.legend.axis {
+    stroke-width: 0;
+  }
+
+.legend.axis .tick{
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+    stroke: black;
+  
+}
 
 #tooltip {
     opacity: 0;
@@ -31,13 +41,22 @@
 }
 
 
-.legend.axis {
-    stroke-width: 0;
+.container{
+    display: grid;
+    margin:auto;
+    grid-template-columns: auto auto;
+
+}
+
+.info-box{
+    font-size: 16px; 
+    font-family: Calibri;
+    border: 2px solid skyblue;
+    border-radius: 5px;
   }
 
-.legend.axis .tick{
-    stroke-opacity: 0.5;
-    stroke-width: 1;
-    stroke: black;
-  
+.info-box.highlight{
+    border-style:outset;
+    border: 2px solid green;
+    background: rgb(142, 207, 142);
 }
