@@ -20,18 +20,18 @@
         <div class="visualization" style="float:left">
             
                 <form id="map_options">
-                    <input type="radio" name="attribute" value="ave_score" checked>Average Wildfire Hazard Potential Score (AWHP)
-                    <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average Wildfire Hazard Potential Score (PW-AWHP)    
+                    <input type="radio" name="attribute" value="ave_score" checked>Average Wildfire Hazard Potential (AWHP)
+                    <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average Wildfire Hazard Potential (PW-AWHP)    
                 </form>            
                 <svg width=1000 height=500></svg>
         </div>
 		<!-- Create div for explanation of viz -->
         <div style="float:right, width auto; word-break: break-word; word-wrap: break-word;">
             <p style="font-size: 16px; font-family: Calibri;">
-                This visualization utilizes Wildfire Hazard Potential Score data produced by the 
+                This visualization utilizes Wildfire Hazard Potential(WHP) data produced by the 
                 <a href="https://www.firelab.org/project/wildfire-hazard-potential" target='_blank'>USDA Forest Service Fire Modeling Institute</a> 
-                whose goal is "to depict the relative potential for wildfire that would be difficult for suppression resources to contain." 
-                The scale ranges from 0 to 5 with 5 being the highest risk and scores are only produced for contiguous United States.<br>
+                with the goal "to depict the relative potential for wildfire that would be difficult for suppression resources to contain."<br> 
+                The scale ranges from 0 to 5 with 5 being the highest risk. These scores are only produced for contiguous United States.<br>
                 The AWHP is the average of all the scores registered for a specific county 
                 while the PW-AWHP is adjusted based on population density in a county, 
                 i.e. how much impact upon population if a fire was uncontained. For example, Malheur County 
