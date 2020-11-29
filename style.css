@@ -31,3 +31,13 @@
 }
 
 
+.legend.axis {
+    stroke-width: 0;
+  }
+
+.legend.axis .tick{
+    stroke-opacity: 0.5;
+    stroke-width: 1;
+    stroke: black;
+  
+}

@@ -142,6 +142,76 @@ function add_toggle(){
     });
 }
 
+/* 
+    ramp() creates an image of a smooth/contnuous color scale
+    in canvas and then returns its DataURL
+*/
+function ramp(color, n = 256) {
+    var canvas = d3.create("canvas")
+            .attr("width", n)
+            .attr("height", 1)
+            .attr("id", "canvas");
+  
+    var context = canvas.node().getContext("2d");
+    for (let i = 0; i < n; ++i) {
+        // normalize the color?
+        context.beginPath();
+        context.rect(i, 0, 1, 1);
+        context.fillStyle = color(i / (n - 1));
+        context.fill();
+        context.closePath();
+    }
+
+
+    return canvas.node().toDataURL();
+  }
+
+/* 
+    draw_legend() draws the Wildfire Hazard Potential Legend
+    on the bottom lefthand corner of the graph.
+*/
+
+function draw_legend(){
+    var svg = d3.select(".container").select("svg");
+    var height = 500
+    var width = 1000
+
+    title = "Wildfire Hazard Potential";
+    tickSize = 5;
+    legend_width = 200; 
+    legend_height = 10;
+    marginTop = 18;
+    marginRight = 0;
+    marginBottom = 50 + tickSize;
+    marginLeft = 100;
+    ticks = width / 64;
+    position = height - 100;
+    
+    // draw the legend on the bottom left hand corner
+    svg.append("image")
+        .attr("id", "legend")
+        .attr("x", marginLeft)
+        .attr("y", height - marginBottom)
+        .attr("width", legend_width)
+        .attr("height", legend_height)
+        .attr("preserveAspectRatio", "none")
+        .attr("xlink:href", ramp(color.interpolator()));
+    
+    // add in the ticks
+    var legendScale = d3.scaleLinear()
+        .domain([0, 5])
+        .range([0, legend_width]);
+
+    var legendAxis = d3.axisBottom(legendScale)
+        .ticks(6)
+        .tickSize(legend_height + tickSize);
+    
+    // translate to legend location
+    svg.append("g")
+        .attr("class", "legend axis")
+        .attr("transform", "translate("+ marginLeft + "," + (height - marginBottom) + ")")
+        .call(legendAxis);
+}
 
 function show(attribute){
 
@@ -160,5 +230,6 @@ function show(attribute){
 
 async function init() {
     draw_map();
+    draw_legend();
     add_toggle();
 }
