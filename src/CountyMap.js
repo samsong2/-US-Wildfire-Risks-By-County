@@ -6,7 +6,10 @@ var color = d3.scaleSequential()
 
 /* 
     draw_map():
-    Reads in the 
+    Reads in the shapes for each county from a topojson file
+    and draws each shape.
+    Then reads in the wildfire risk for each county and
+    maps the data to each county as color.
 */
 async function draw_map() {
     var width = 1000
@@ -27,7 +30,7 @@ async function draw_map() {
     });
     var county_features = topojson.feature(us, us.objects.counties).features
 
-    // draw blank counties
+    // draw each county shape
     svg.append("g")
         .attr("class", "map")
         .attr("id", "hazard_by_county")
@@ -39,7 +42,7 @@ async function draw_map() {
         .attr("d", path)
         .attr("fill", "transparent");
 
-    // Add black lines for states    
+    // Add black lines for state borders    
     svg.append("path")
         .datum(topojson.mesh(us, us.objects.states, function (a, b) {
             return a.id !== b.id;
@@ -76,6 +79,7 @@ async function draw_map() {
 
             // Add tooltip and tooltip actions
             var tooltip = d3.select("#tooltip");
+
             // tooltip formating
             var formatNum1 = d3.format(".3r")
             var formatNum2 = d3.format(",")
@@ -102,8 +106,8 @@ async function draw_map() {
                 tooltip.style("opacity", 0)
             };
 
-            // Add white lines between counties and color counties according to hazard score
-            // the csv data is joined to the map data by id
+            // Join the csv data to the county shapes by County ID
+            // Then show a county's wildfire risk as the color for its shape.
             svg.selectAll(".county")
                 .data(Object.values(dictByID), function (d) { return d.id; })  
                 .attr("fill", function (d) {
@@ -117,6 +121,10 @@ async function draw_map() {
         })
 }
 
+/* 
+    add_toggle()
+    Creates a trigger to handle changes in the radio buttons.
+*/
 function add_toggle(){
 
     d3.select('#map_options').selectAll("input")
@@ -127,8 +135,9 @@ function add_toggle(){
 }
 
 /* 
-    ramp() creates an image of a smooth/contnuous color scale
-    in canvas and then returns its DataURL
+    ramp(color, steps) 
+    Creates an image of a smooth/contnuous color scale
+    and returns its DataURL
 */
 function ramp(color, n = 256) {
     var canvas = d3.create("canvas")
@@ -151,10 +160,10 @@ function ramp(color, n = 256) {
   }
 
 /* 
-    draw_legend() draws the Wildfire Hazard Potential Legend
+    draw_legend() 
+    Adds a Wildfire Hazard Potential Legend to
     on the bottom lefthand corner of the graph.
 */
-
 function draw_legend(){
     var svg = d3.select(".container").select("svg");
     var height = 500
@@ -172,7 +181,7 @@ function draw_legend(){
 
     svg.append("path")
         .attr("id", "legend_box")
-        .attr("")
+        
     // draw the legend on the bottom left hand corner
     svg.append("image")
         .attr("id", "legend")
@@ -198,7 +207,7 @@ function draw_legend(){
         .attr("transform", "translate("+ marginLeft + "," + (height - marginBottom) + ")")
         .call(legendAxis);
 
-
+    // adds legend title
     svg.append("text")
         .attr("id", "legend title")
         .attr("transform", "translate( "+ marginLeft + "," + (height - marginBottom - 10) + ")")
@@ -207,6 +216,12 @@ function draw_legend(){
 
 }
 
+
+/** show(attribute)
+ * Handles the inputs from the radio buttons.
+ * Switches between the wildfire hazard potential
+ * and the population-weighted wildfire hazard potential
+ */
 function show(attribute){
 
     // verify attribute before changing color?
