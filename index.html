@@ -17,13 +17,13 @@
     <div id="tooltip"></div>
 	<h1 id="viz-title" style="text-align:center; color:rgb(189, 110, 6); ">Wildfire Hazard Potential Visualization</h2>
     <div class="container">
+        <form id="map_options" style="text-align:center">
+            <input type="radio" name="attribute" value="ave_score" checked>Average WHP Score
+            <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average WHP Score 
+        </form>            
 
         <div class="visualization" style="float:left">
             
-                <form id="map_options" style="text-align:center">
-                    <input type="radio" name="attribute" value="ave_score" checked>Average WHP Score
-                    <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average WHP Score 
-                </form>            
                 <svg width=1000 height=500></svg>
         </div>
 		<!-- Create div for explanation of viz -->
