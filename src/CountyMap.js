@@ -4,13 +4,14 @@ var color = d3.scaleSequential()
     .domain([0, 5])
     .interpolator(d3.interpolateOranges);
 
-/* 
-    draw_map():
-    Reads in the shapes for each county from a topojson file
-    and draws each shape.
-    Then reads in the wildfire risk for each county and
-    maps the data to each county as color.
-*/
+
+/** draw_map()
+ * Reads in the shapes for each county from a topojson file
+ * and draw each shape.
+ * Then reads in the wildfire related data for each county
+ * and joins the wildfire data to the counties.
+ * The data is then mapped as the color.
+ */
 async function draw_map() {
     var width = 1000
     var height = 500
@@ -121,10 +122,9 @@ async function draw_map() {
         })
 }
 
-/* 
-    add_toggle()
-    Creates a trigger to handle changes in the radio buttons.
-*/
+/** add_toggle()
+ * Creates a trigger to handle changes in the radio button
+ */
 function add_toggle(){
 
     d3.select('#map_options').selectAll("input")
@@ -134,11 +134,11 @@ function add_toggle(){
     });
 }
 
-/* 
-    ramp(color, steps) 
-    Creates an image of a smooth/contnuous color scale
-    and returns its DataURL
-*/
+
+/** ramp(color, steps)
+ * Creates an image of a continous color scale
+ * and then return its DataURL
+ */
 function ramp(color, n = 256) {
     var canvas = d3.create("canvas")
             .attr("width", n)
@@ -146,8 +146,8 @@ function ramp(color, n = 256) {
             .attr("id", "canvas");
   
     var context = canvas.node().getContext("2d");
+    // draw the gradient step by step
     for (let i = 0; i < n; ++i) {
-        // normalize the color?
         context.beginPath();
         context.rect(i, 0, 1, 1);
         context.fillStyle = color(i / (n - 1));
@@ -159,11 +159,11 @@ function ramp(color, n = 256) {
     return canvas.node().toDataURL();
   }
 
-/* 
-    draw_legend() 
-    Adds a Wildfire Hazard Potential Legend to
-    on the bottom lefthand corner of the graph.
-*/
+
+/** draw_legend() 
+ * Adds a legend showing the Wildfire Hazard Potential 
+ * scale to the bottom lefthand corner of the svg
+ */
 function draw_legend(){
     var svg = d3.select(".container").select("svg");
     var height = 500
