@@ -4,26 +4,10 @@ var color = d3.scaleSequential()
     .domain([0, 5])
     .interpolator(d3.interpolateOranges);
 
-
-var tl_map_features = function (d) {
-    return {
-        type: d.type,
-        id: Number.parseInt(d.properties.GEOID),
-        geometry: d.geometry,
-        properties: d.properties
-    }
-}
-
-var alber_map_features = function (d) {
-    return {
-        type: d.type,
-        id: Number.parseInt(d.id),
-        geometry: d.geometry,
-        properties: d.properties
-    }
-}
-
-// Draws the map lines and add colors
+/* 
+    draw_map():
+    Reads in the 
+*/
 async function draw_map() {
     var width = 1000
     var height = 500
@@ -105,10 +89,10 @@ async function draw_map() {
                     .style("left", (d3.event.pageX + 15) + "px")
                     .style("top", (d3.event.pageY - 15) + "px")
                     .html(d.county + " (" + d.state + ") <hr/>" +
-                        "AWHP Score: " + formatNum1(d.ave_score) +
-                        "<br/> PW-AWHP Score: " + formatNum1(d.pop_score) +
-                        "<br/> 2020 Est Population: " + formatNum2(d.total_pop) +
-                        "<br/> Pop % Change 2010-20: " + formatNum1(d.pop_change_pct) + "%");
+                        "Average WHP: " + formatNum1(d.ave_score) +
+                        "<br/> Population-Weighted Average WHP: " + formatNum1(d.pop_score) +
+                        "<br/> 2020 Estimated Population: " + formatNum2(d.total_pop) +
+                        "<br/> Population % Change 2010-20: " + formatNum1(d.pop_change_pct) + "%");
             };
 
             var mouseout = function () {
