@@ -17,9 +17,11 @@
     <div id="tooltip"></div>
 	<h1 id="viz-title" style="text-align:center; color:rgb(189, 110, 6); ">Wildfire Hazard Potential Visualization</h2>
     <div class="container">
-        <form id="map_options" style="text-align:center">
-            <input type="radio" name="attribute" value="ave_score" checked>Average WHP Score
-            <input type="radio" name="attribute" value="pop_score" >Population-Weighted Average WHP Score 
+        <form id="map_options" style="text-align:center">            
+            <input type="radio" name="attribute" id="ave_score_radio" value="ave_score" checked>
+            <label for="ave_score_radio">Average WHP Score</label>
+            <input type="radio" name="attribute" id="pop_score_radio" value="pop_score" >
+            <label for="pop_score_radio"> Population-Weighted Average WHP Score</label>    
         </form>            
 
         <div class="visualization" style="float:left">
