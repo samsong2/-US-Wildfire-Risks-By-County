@@ -1,9 +1,8 @@
 # US-Wildfire-Risks-By-County
 
-The page should currently display a map of USA consisting of all 50 states and its counties.
+The map can be viewed at https://pages.github-dev.cs.illinois.edu/samsong2/US-Wildfire-Risks-By-County/ and should display a Wildfire Hazard map of USA consisting of all 48 mainland states and their counties. While the shapefile may contain
 
-TopoJson data for the counties was made by feeding shapefiles to mapshaper.org and reduced then smoothed out using the 
-Visalingam/weighted area method. 
+The shapes for the map are stored data/us_other_updated.json. The updated file contains an update to  
+the FIPS for when Shannon County, SD became Oglala Lakota, SD in 2014 https://www.cdc.gov/nchs/nvss/bridged_race/county_geography-_changes2015.pdf. 
 
-County id = https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html
-72 = peurto rico
+The data corresponding to each counties Wildfire Hazard Potential is stored under data/wildfire_county_data.csv
